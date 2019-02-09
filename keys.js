@@ -8,3 +8,7 @@ exports.spotify = {
 exports.omdb = { 
     key: process.env.OMDB_KEY
 }
+
+exports.alpha_vantage = {
+    key: process.env.AV_KEY
+}
