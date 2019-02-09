@@ -25,11 +25,10 @@ var spotify = new Spotify(keys.spotify);
         
     //     console.log(data); 
     // });
-    
 
 var axios = require("axios");
 // We then run the request with axios module on a URL with a JSON
-axios.get("http://www.omdbapi.com/?t=remember+the+titans&y=&plot=short&apikey=trilogy").then(
+axios.get("http://www.omdbapi.com/?t=remember+the+titans&y=&plot=short&apikey=" + keys.omdb.key).then(
   function(response) {
     // Then we print out the imdbRating
     console.log("The movie's rating is: " + response.data.imdbRating);
