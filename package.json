@@ -1,0 +1,25 @@
+{
+  "name": "LIRI-Bot",
+  "version": "1.0.0",
+  "description": "LIRI (\"Language Interpretation and Recognition Interface\") is simple command line node app that can pull information from the Spotify, Band In Town, and OMDB APIs and return information neatly for the user.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ma662/LIRI-Bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ma662/LIRI-Bot/issues"
+  },
+  "homepage": "https://github.com/ma662/LIRI-Bot#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "dotenv": "^6.2.0",
+    "node-spotify-api": "^1.0.7"
+  }
+}
