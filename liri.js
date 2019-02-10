@@ -27,7 +27,7 @@ var spotify = new Spotify(keys.spotify);
 //switch case
 switch (command) {
     case 'spotify-this-song':
-        console.log("searching for song: " + inquiry);
+        console.log("searching for song: " + inquiry + "\n");
 
         if (inquiry === ''){
             console.log("No song given. This might be a sign. Here's 'The Sign' by Ace of Base instead.");
@@ -38,8 +38,6 @@ switch (command) {
             if (err) {
                 return console.log('Error occurred: ' + err);
             }
-            // console.log(data.tracks.items[0]);  // changes the track selected
-            // console.log(data.tracks.items[0].album);
 
             if (data.tracks.items.length === 0){
                 console.log("Could not find that song. This might be a sign. Here's 'The Sign' by Ace of Base instead.");
@@ -85,27 +83,51 @@ switch (command) {
                 }
             }
         });
-
-
-
-        // * Artist(s)
-
-        // * The song's name
-   
-        // * A preview link of the song from Spotify
-   
-        // * The album that the song is from
-   
-        // * If no song is provided then your program will default to "The Sign" by Ace of Base.
-
         break;
-    
-    case 'stock-check-this':
+        
+        case 'stock-check-this':
+        inquiry = inquiry.toLocaleUpperCase();
         console.log("searching for symbol: " + inquiry);
-        break;
+                
+        axios.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + inquiry + "&outputsize=compact" + "&apikey=" + keys.alpha_vantage.key).then(
+            function(response) {
+                var lastRef = response.data['Meta Data']['3. Last Refreshed'];
+                console.log("Last Refreshed Date: " + lastRef);
 
-    case 'movie-this':
-        console.log("searching for movie: " + inquiry);
+                console.log("Stock value of " + inquiry + " on " + lastRef + ":");
+                console.log(response.data['Time Series (Daily)'][lastRef]);
+            }
+        );
+        break;
+        
+        case 'movie-this':
+        console.log("searching for movie: " + inquiry + "\n");
+
+        axios.get("http://www.omdbapi.com/?t=" + inquiry + "&y=&plot=short&apikey=" + keys.omdb.key)
+        .then(
+          function(response) {
+            // console.log(response.data);
+            console.log("Movie Title: " + response.data.Title);
+            console.log("Released: " + response.data.Year);
+            console.log("IMDB Rating: " + response.data.imdbRating);
+
+            var hasRT = false;
+            for (var i=0; i<response.data.Ratings.length; i++){
+                if(response.data.Ratings[i].Source === "Rotten Tomatoes"){
+                    console.log("Rotten Tomatoes Rating: " + response.data.Ratings[i].Value);
+                    hasRT = true;
+                    break;
+                }
+            }
+            if (!hasRT) {
+                console.log("Rotten Tomatoes Rating: None");
+            }
+            console.log("Country: " + response.data.Country);
+            console.log("Language: " + response.data.Language);
+            console.log("Plot: " + response.data.Plot);
+            console.log("Actors: " + response.data.Actors);
+            }
+        );
         break;
 
     case 'do-what-it-says':
@@ -121,27 +143,8 @@ switch (command) {
 
 
 
-// WORKING OMDB
-// // We then run the request with axios module on a URL with a JSON
-// axios.get("http://www.omdbapi.com/?t=remember+the+titans&y=&plot=short&apikey=" + keys.omdb.key).then(
-//   function(response) {
-//     // Then we print out the imdbRating
-//     console.log("The movie's rating is: " + response.data.imdbRating);
-//   }
-// );
 
 
 // THIRD API
 // input hookups symbol
 // move api key
-
-// var symbol to upper case
-// console.log(keys.alpha_vantage.key);
-
-// var symbol = 'GOOG';
-
-// axios.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + symbol + "&apikey=" + keys.alpha_vantage.key).then(
-//     function(response) {
-//         console.log(response.data['Meta Data']);
-//     }
-// );
