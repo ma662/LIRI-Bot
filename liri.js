@@ -53,6 +53,12 @@ var commands = {
                 }
 
                 // Log to log.txt here
+                // const data = new Uint8Array(Buffer.from('log.txt'));
+
+                fs.writeFile('log.txt', , (err) => {
+                    if (err) throw err;
+                    console.log('The file has been saved!');
+                });
             }
         });
 
@@ -112,7 +118,7 @@ var commands = {
         fs.readFile('./random.txt', 'utf8', function(err, data){
             if (err) throw err;
             console.log(data);
-            // commands.spotifyComm(data);
+            commands.spotifyComm(data.split(' ').slice(1).join(' '));
         });
     }
 };
@@ -125,13 +131,11 @@ switch (command) {
             console.log("No song given. This might be a sign. Here's 'The Sign' by Ace of Base instead.");
             inquiry = 'The Sign Ace of Base';
         }
-
         commands.spotifyComm(inquiry);
     break;
         
     case 'stock-check-this':
         inquiry = inquiry.toLocaleUpperCase();
-        
         commands.stockComm(inquiry);
     break;
         
@@ -141,7 +145,6 @@ switch (command) {
 
     case 'do-what-it-says':        
         commands.doComm();
-
     break;
         
     default:
