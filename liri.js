@@ -55,10 +55,10 @@ var commands = {
                 // Log to log.txt here
                 // const data = new Uint8Array(Buffer.from('log.txt'));
 
-                fs.writeFile('log.txt', , (err) => {
-                    if (err) throw err;
-                    console.log('The file has been saved!');
-                });
+                // fs.writeFile('log.txt', , (err) => {
+                //     if (err) throw err;
+                //     console.log('The file has been saved!');
+                // });
             }
         });
 
@@ -118,7 +118,20 @@ var commands = {
         fs.readFile('./random.txt', 'utf8', function(err, data){
             if (err) throw err;
             console.log(data);
-            commands.spotifyComm(data.split(' ').slice(1).join(' '));
+
+            var thisComm = data.split(' ')[0];
+            if (thisComm === "spotify-this-song"){
+                commands.spotifyComm(data.split(' ').slice(1).join(' '));
+            }
+            else if (thisComm === "stock-check-this"){
+                command.stockComm(data.split(' ').slice(1).join(' '));
+            }
+            else if (thisComm === "movie-this"){
+                commands.movieComm(data.split(' ').slice(1).join(' '));
+            }
+            else{
+                console.log("Command from file not recognized. Try changing the file contents and trying again.");
+            }
         });
     }
 };
