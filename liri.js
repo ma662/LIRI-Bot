@@ -124,7 +124,7 @@ var commands = {
                 commands.spotifyComm(data.split(' ').slice(1).join(' '));
             }
             else if (thisComm === "stock-check-this"){
-                command.stockComm(data.split(' ').slice(1).join(' '));
+                commands.stockComm(data.split(' ').slice(1));
             }
             else if (thisComm === "movie-this"){
                 commands.movieComm(data.split(' ').slice(1).join(' '));
@@ -156,11 +156,11 @@ switch (command) {
         commands.movieComm(inquiry);
     break;
 
-    case 'do-what-it-says':        
+    case 'do-what-it-says':
         commands.doComm();
     break;
         
     default:
         console.log("Command not recognized, sorry. Try again.");
     break;
-    }
+}
