@@ -1,20 +1,10 @@
 require("dotenv").config();
 var Spotify = require('node-spotify-api');
-
 var keys = require("./keys.js");
-
+var fs = require('fs');
 
 // init axios for calls
 var axios = require("axios");
-
-// C O M M A N D S
-// * `stock-check-this`
-// * `spotify-this-song`
-// * `movie-this`
-// * `do-what-it-says`
-
-// PROCESS INPUT
-// command
 
 var command = process.argv[2].toLowerCase();
 console.log("command = " + command);
@@ -22,51 +12,29 @@ console.log("command = " + command);
 var inquiry = process.argv.slice(3).join(' ').toLowerCase().trim();
 console.log("inquiry: " + inquiry);
 
-var spotify = new Spotify(keys.spotify);
+var commands = {
+    spotifyComm : function(song) {
+        var spotify = new Spotify(keys.spotify);
+        console.log("searching for song: " + song + "\n");
 
-//switch case
-switch (command) {
-    case 'spotify-this-song':
-        console.log("searching for song: " + inquiry + "\n");
-
-        if (inquiry === ''){
-            console.log("No song given. This might be a sign. Here's 'The Sign' by Ace of Base instead.");
-            inquiry = 'The Sign Ace of Base';
-        }
-    
-        spotify.search({ type: 'track', query: inquiry }, function(err, data) {
+        spotify.search({ type: 'track', query: song }, function(err, data) {
             if (err) {
                 return console.log('Error occurred: ' + err);
             }
 
-            if (data.tracks.items.length === 0){
+            // no track information returned
+            if (data.tracks.items.length === 0) {
                 console.log("Could not find that song. This might be a sign. Here's 'The Sign' by Ace of Base instead.");
-                spotify.search({ type: 'track', query: 'The Sign Ace of Base'}, function(err, data) {
-                    if (err) {
-                        return console.log('Error occured: ' + err);
-                    }
-
-                    console.log("Result #1 of " + data.tracks.items.length);
-
-                    console.log("Song Name: " + data.tracks.items[0].name);
-                    console.log("Album: " + data.tracks.items[0].album.name);
-
-                    if (data.tracks.items[0].preview_url === null) {
-                        console.log("Preview URL: Not Available");
-                    }
-                    else {
-                        console.log("Preview URL: " + data.tracks.items[0].preview_url);
-                    }
-        
-                    console.log("Artist(s): ");
-                    for (var i=0; i<data.tracks.items[0].album.artists.length; i++) {
-                        console.log(data.tracks.items[0].album.artists[i].name);
-                    }
-                });
+                
+                // re-run with this default track
+                commands.spotifyComm('The Sign Ace of Base');
             }
             else {
+                // Result Number
                 console.log("Result #1 of " + data.tracks.items.length);
+                // Song Name
                 console.log("Song Name: " + data.tracks.items[0].name);
+                // Album Name
                 console.log("Album: " + data.tracks.items[0].album.name);
 
                 // if cannot find preview_url   
@@ -74,43 +42,52 @@ switch (command) {
                     console.log("Preview URL: Not Available");
                 }
                 else {
+                    // preview_url
                     console.log("Preview URL: " + data.tracks.items[0].preview_url);
                 }
 
+                // Artists
                 console.log("Artist(s): ");
                 for (var i=0; i<data.tracks.items[0].album.artists.length; i++) {
                     console.log(data.tracks.items[0].album.artists[i].name);
                 }
+
+                // Log to log.txt here
             }
         });
-        break;
-        
-        case 'stock-check-this':
-        inquiry = inquiry.toLocaleUpperCase();
-        console.log("searching for symbol: " + inquiry);
-                
-        axios.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + inquiry + "&outputsize=compact" + "&apikey=" + keys.alpha_vantage.key).then(
+
+    },
+
+    stockComm : function(symbol) {
+        console.log("searching for symbol: " + symbol);
+
+        axios.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + symbol + "&outputsize=compact" + "&apikey=" + keys.alpha_vantage.key).then(
             function(response) {
                 var lastRef = response.data['Meta Data']['3. Last Refreshed'];
                 console.log("Last Refreshed Date: " + lastRef);
 
-                console.log("Stock value of " + inquiry + " on " + lastRef + ":");
+                console.log("Stock value of " + symbol + " on " + lastRef + ":");
                 console.log(response.data['Time Series (Daily)'][lastRef]);
             }
         );
-        break;
+    },
         
-        case 'movie-this':
-        console.log("searching for movie: " + inquiry + "\n");
-
-        axios.get("http://www.omdbapi.com/?t=" + inquiry + "&y=&plot=short&apikey=" + keys.omdb.key)
+    movieComm : function(film) {
+        console.log("searching for movie: " + film + "\n");
+        
+        if (film === ''){
+            console.log("You didn't provide a movie. Here is Mr. Nobody for you instead.\n");
+            film = 'Mr. Nobody';
+        }
+        
+        axios.get("http://www.omdbapi.com/?t=" + film + "&y=&plot=short&apikey=" + keys.omdb.key)
         .then(
-          function(response) {
+            function(response) {
             // console.log(response.data);
             console.log("Movie Title: " + response.data.Title);
             console.log("Released: " + response.data.Year);
             console.log("IMDB Rating: " + response.data.imdbRating);
-
+        
             var hasRT = false;
             for (var i=0; i<response.data.Ratings.length; i++){
                 if(response.data.Ratings[i].Source === "Rotten Tomatoes"){
@@ -128,23 +105,46 @@ switch (command) {
             console.log("Actors: " + response.data.Actors);
             }
         );
-        break;
+    },
 
-    case 'do-what-it-says':
-        console.log("attemping to do ... ");
-        break;
+    doComm : function() {
+        console.log("Reading file and doing ... ");
+        fs.readFile('./random.txt', 'utf8', function(err, data){
+            if (err) throw err;
+            console.log(data);
+            // commands.spotifyComm(data);
+        });
+    }
+};
 
+//switch case
+switch (command) {
+    case 'spotify-this-song':
+        // if no input given, run default
+        if (inquiry === ''){
+            console.log("No song given. This might be a sign. Here's 'The Sign' by Ace of Base instead.");
+            inquiry = 'The Sign Ace of Base';
+        }
+
+        commands.spotifyComm(inquiry);
+    break;
+        
+    case 'stock-check-this':
+        inquiry = inquiry.toLocaleUpperCase();
+        
+        commands.stockComm(inquiry);
+    break;
+        
+    case 'movie-this':
+        commands.movieComm(inquiry);
+    break;
+
+    case 'do-what-it-says':        
+        commands.doComm();
+
+    break;
+        
     default:
         console.log("Command not recognized, sorry. Try again.");
-        break;
-}
-
-
-
-
-
-
-
-// THIRD API
-// input hookups symbol
-// move api key
+    break;
+    }
