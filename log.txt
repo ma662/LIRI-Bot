@@ -109,3 +109,18 @@ Artist(s): Backstreet Boys
 Preview URL: https://p.scdn.co/mp3-preview/e72a05dc3f69c891e3390c3ceaa77fad02f6b5f6?cid=32c0940b701646028c9bfdb6a7229f18
 
 
+spotify-this-song, Take me back
+
+Result #5 of 20
+Song Name: We Gonna Take U Back (Lude)/ Don't Leave Me
+Album: Another Level
+Artist(s): Blackstreet
+Preview URL: Not Available
+
+
+stock-check-this, ama
+
+Last Refreshed Date: 2016-12-22
+Stock value of AMA on 2016-12-22:
+{"1. open":"15.9000","2. high":"16.3000","3. low":"15.0000","4. close":"15.5000","5. volume":"188679900"}
+

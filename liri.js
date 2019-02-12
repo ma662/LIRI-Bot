@@ -205,6 +205,10 @@ var commands = {
                 console.log("Command from file not recognized. Try changing the file contents and trying again.");
             }
         });
+    },
+
+    help : function() {
+        console.log("commands: [spotify-this-song] '<song name>' to select and return song information. \n[stock-check-this] '<symbol>' to see the last updated stock information for that symbol. \n[movie-this] '<movie name>' to return information about that movie. \n[do-what-it-says] to run a command from the random.txt file.");
     }
 };
 
@@ -232,7 +236,10 @@ switch (command) {
         commands.doComm();
     break;
         
+    case '--help':
+        commands.help();
+    break;
     default:
-        console.log("Command not recognized, sorry. Try again.");
+        console.log("Command not recognized, sorry. Use --help to see commands");
     break;
 }
