@@ -1,39 +1,111 @@
-this is loaded
-command = movie-this
-inquiry: superbad
-searching for movie: superbad
-{ Title: 'Superbad',
-  Year: '2007',
-  Rated: 'R',
-  Released: '17 Aug 2007',
-  Runtime: '113 min',
-  Genre: 'Comedy',
-  Director: 'Greg Mottola',
-  Writer: 'Seth Rogen, Evan Goldberg',
-  Actors:
-   'Jonah Hill, Michael Cera, Christopher Mintz-Plasse, Bill Hader',
-  Plot:
-   'Two co-dependent high school seniors are forced to deal with separation anxiety after their plan to stage a booze-soaked party goes awry.',
-  Language: 'English',
-  Country: 'USA',
-  Awards: '11 wins & 24 nominations.',
-  Poster:
-   'https://m.media-amazon.com/images/M/MV5BMTc0NjIyMjA2OF5BMl5BanBnXkFtZTcwMzIxNDE1MQ@@._V1_SX300.jpg',
-  Ratings:
-   [ { Source: 'Internet Movie Database', Value: '7.6/10' },
-     { Source: 'Rotten Tomatoes', Value: '87%' },
-     { Source: 'Metacritic', Value: '76/100' } ],
-  Metascore: '76',
-  imdbRating: '7.6',
-  imdbVotes: '475,900',
-  imdbID: 'tt0829482',
-  Type: 'movie',
-  DVD: '04 Dec 2007',
-  BoxOffice: '$121,463,226',
-  Production: 'Sony Pictures/Columbia',
-  Website: 'http://www.sonypictures.com/movies/superbad/',
-  Response: 'True' }
-Movie Title: undefined
-Released: undefined
-IMDB Rating: 7.6
-Rotten Tomatoes Rating: undefined
+spotify-this-song, In Reverse
+
+Result #13 of 20
+Song Name: falling in reverse
+Album: vertigo
+EDEN
+Preview URL: Not Available
+
+
+spotify-this-song, Look Alive
+
+Result #3 of 20
+Song Name: Look Alive (feat. Drake)
+Album: Look Alive (feat. Drake)
+BlocBoy JB, Drake
+Preview URL: https://p.scdn.co/mp3-preview/c9c76218bb3ed09ae2ad7d9803d111e54fe58fe2?cid=32c0940b701646028c9bfdb6a7229f18
+
+
+spotify-this-song, Look Alive
+
+Result #1 of 20
+Song Name: Look Alive (feat. Drake)
+Album: Look Alive (feat. Drake)
+Artist(s): BlocBoy JB, Drake
+Preview URL: https://p.scdn.co/mp3-preview/4c9c1f93e4b6032679d772a0a8c3c28cef5a42ae?cid=32c0940b701646028c9bfdb6a7229f18
+
+
+spotify-this-song, Mariah Carey
+
+Result #1 of 20
+Song Name: All I Want for Christmas Is You
+Album: Merry Christmas
+Artist(s): Mariah Carey
+Preview URL: https://p.scdn.co/mp3-preview/ab4f06069148ef8510d8681164479601d4617bed?cid=32c0940b701646028c9bfdb6a7229f18
+
+
+movie-this, Shrek
+
+Movie Title: Shrek
+Released: 2001
+IMDB Rating: 7.9
+Rotten Tomatoes Rating: 88%
+Country: USA
+Language: English
+Plot: A mean lord exiles fairytale creatures to the swamp of a grumpy ogre, who must go on a quest and rescue a princess for the lord in order to get his land back.
+Actors: Mike Myers, Eddie Murphy, Cameron Diaz, John Lithgow
+
+
+movie-this, Shrek
+
+Movie Title: Shrek
+Released: 2001
+IMDB Rating: 7.9
+Rotten Tomatoes Rating: 88%
+Country: USA
+Language: English
+Plot: A mean lord exiles fairytale creatures to the swamp of a grumpy ogre, who must go on a quest and rescue a princess for the lord in order to get his land back.
+Actors: Mike Myers, Eddie Murphy, Cameron Diaz, John Lithgow
+
+
+stock-check-this, AMH
+
+Last Refreshed Date: 2019-02-11
+Stock value of AMH on 2019-02-11:
+{"1. open":"22.7300","2. high":"22.9300","3. low":"22.6821","4. close":"22.7300","5. volume":"1459052"}
+
+stock-check-this, BO
+
+Last Refreshed Date: 2018-02-28
+Stock value of BO on 2018-02-28:
+{"1. open":"0.5850","2. high":"0.5850","3. low":"0.5850","4. close":"0.5850","5. volume":"0"}
+
+stock-check-this, Boo
+
+Last Refreshed Date: 2016-09-28
+Stock value of BOO on 2016-09-28:
+{"1. open":"1.1200","2. high":"1.1200","3. low":"1.1200","4. close":"1.1200","5. volume":"0"}
+
+stock-check-this, Boo
+
+Last Refreshed Date: 2016-09-28
+Stock value of BOO on 2016-09-28:
+{"1. open":"1.1200","2. high":"1.1200","3. low":"1.1200","4. close":"1.1200","5. volume":"0"}
+
+stock-check-this, Boo
+
+Last Refreshed Date: 2016-09-28
+Stock value of BOO on 2016-09-28:
+{"1. open":"1.1200","2. high":"1.1200","3. low":"1.1200","4. close":"1.1200","5. volume":"0"}
+
+do-what-it-says
+
+Last Refreshed Date: 2019-02-11
+Stock value of mfst on 2019-02-11:
+{"1. open":"0.1310","2. high":"0.1500","3. low":"0.1100","4. close":"0.1200","5. volume":"376617"}
+
+do-what-it-says, extra, arguments, just, to, see, whats, up
+
+Last Refreshed Date: 2019-02-11
+Stock value of mfst on 2019-02-11:
+{"1. open":"0.1310","2. high":"0.1500","3. low":"0.1100","4. close":"0.1200","5. volume":"376617"}
+
+do-what-it-says, extra, arguments, just, to, see, whats, up
+
+Result #1 of 20
+Song Name: I Want It That Way
+Album: The Hits--Chapter One
+Artist(s): Backstreet Boys
+Preview URL: https://p.scdn.co/mp3-preview/e72a05dc3f69c891e3390c3ceaa77fad02f6b5f6?cid=32c0940b701646028c9bfdb6a7229f18
+
+

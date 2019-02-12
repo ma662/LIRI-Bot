@@ -1,17 +1,22 @@
 require("dotenv").config();
 var Spotify = require('node-spotify-api');
-var keys = require("./keys.js");
 var fs = require('fs');
-
-// init axios for calls
+var inquirer = require("inquirer");
 var axios = require("axios");
 
+var keys = require("./keys.js");
+
+// Process Input =============================
+var input = process.argv.slice(2).join(', ');
+// console.log(input);
+
 var command = process.argv[2].toLowerCase();
-console.log("command = " + command);
+// console.log("command = " + command);
 
 var inquiry = process.argv.slice(3).join(' ').toLowerCase().trim();
-console.log("inquiry: " + inquiry);
+// console.log("inquiry: " + inquiry);
 
+// Object to store commands
 var commands = {
     spotifyComm : function(song) {
         var spotify = new Spotify(keys.spotify);
@@ -30,50 +35,101 @@ var commands = {
                 commands.spotifyComm('The Sign Ace of Base');
             }
             else {
-                // Result Number
-                console.log("Result #1 of " + data.tracks.items.length);
-                // Song Name
-                console.log("Song Name: " + data.tracks.items[0].name);
-                // Album Name
-                console.log("Album: " + data.tracks.items[0].album.name);
+                var choicesArr = [];
+                for (var i=1; i<data.tracks.items.length+1; i++){
+                    // contains all data pertaining to one result
+                    var thisItem = data.tracks.items[i-1];
+                    // song name
+                    var song = data.tracks.items[i-1].name;
+                    var artists = [];
 
-                // if cannot find preview_url   
-                if (data.tracks.items[0].preview_url === null) {
-                    console.log("Preview URL: Not Available");
+                    for (var y=0; y<thisItem.album.artists.length; y++){
+                        artists.push(thisItem.album.artists[y].name);
+                    }
+
+                    choicesArr.push(i + " - " + song + " - " + artists.join(', '));
                 }
-                else {
-                    // preview_url
-                    console.log("Preview URL: " + data.tracks.items[0].preview_url);
-                }
+                
+                inquirer
+                .prompt([
+                    {
+                    name: "selection",
+                    type: "list",
+                    message: "Select one of the results:",
+                    choices: choicesArr
+                    }
+                ]).then(function(answer) {
+                    // The number from selection - 1 to account for the +1 index in previous block
+                    var userSelection = answer.selection.split(' ')[0] - 1;
+                    console.log("\n");
+                    
+                    var res = "Result #" + (userSelection + 1) + " of " + data.tracks.items.length + "\n";
+                    var song = "Song Name: " + data.tracks.items[userSelection].name + "\n";
+                    var album = "Album: " + data.tracks.items[userSelection].album.name + "\n";
 
-                // Artists
-                console.log("Artist(s): ");
-                for (var i=0; i<data.tracks.items[0].album.artists.length; i++) {
-                    console.log(data.tracks.items[0].album.artists[i].name);
-                }
+                    // if cannot find preview_url   
+                    var pUrl;
+                    if (data.tracks.items[userSelection].preview_url === null) {
+                        pUrl = ("Preview URL: Not Available" + "\n");
+                        // console.log(pUrl);
+                    }
+                    else {
+                        pUrl = "Preview URL: " + data.tracks.items[userSelection].preview_url + "\n";
+                        // console.log(pUrl);
+                    }
 
-                // Log to log.txt here
-                // const data = new Uint8Array(Buffer.from('log.txt'));
+                    var artists = [];
+                    for (var i=0; i<data.tracks.items[userSelection].album.artists.length; i++) {
+                        artists.push(data.tracks.items[userSelection].album.artists[i].name);
+                    }
+                    artists = "Artist(s): " + artists.join(', ') + "\n";
 
-                // fs.writeFile('log.txt', , (err) => {
-                //     if (err) throw err;
-                //     console.log('The file has been saved!');
-                // });
+                    // Displaying & Logging =========================================
+                    var display = res + song + album + artists + pUrl;
+                    console.log(display);
+
+                    var log = input + "\n\n" + display + "\n\n";
+
+                    fs.appendFile("log.txt", log, function(err){
+                        if (err) {
+                            return console.log(err);
+                        }
+                        else {
+                            console.log("Updated log.txt");
+                        }
+                    })
+                })
             }
         });
 
     },
 
     stockComm : function(symbol) {
-        console.log("searching for symbol: " + symbol);
+        console.log("searching for symbol: " + symbol + "\n");
 
         axios.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + symbol + "&outputsize=compact" + "&apikey=" + keys.alpha_vantage.key).then(
             function(response) {
-                var lastRef = response.data['Meta Data']['3. Last Refreshed'];
-                console.log("Last Refreshed Date: " + lastRef);
+                var lastRef = response.data['Meta Data']['3. Last Refreshed'].split(' ')[0];
+                var lrMessage = "Last Refreshed Date: " + lastRef + "\n";
 
-                console.log("Stock value of " + symbol + " on " + lastRef + ":");
-                console.log(response.data['Time Series (Daily)'][lastRef]);
+                var stockMessage = "Stock value of " + symbol + " on " + lastRef + ":" + "\n";
+                var stockData = response.data['Time Series (Daily)'][lastRef];
+
+                var display = lrMessage + stockMessage;
+                console.log(display);
+                console.log(stockData);
+                console.log("\n");
+
+                var log = input + "\n\n" + display + JSON.stringify(stockData) + "\n\n";
+
+                fs.appendFile("log.txt", log, function(err){
+                    if (err) {
+                        return console.log(err);
+                    }
+                    else {
+                        console.log("Updated log.txt");
+                    }
+                })
             }
         );
     },
@@ -90,25 +146,41 @@ var commands = {
         .then(
             function(response) {
             // console.log(response.data);
-            console.log("Movie Title: " + response.data.Title);
-            console.log("Released: " + response.data.Year);
-            console.log("IMDB Rating: " + response.data.imdbRating);
+            var movie = ("Movie Title: " + response.data.Title) + "\n";
+            var rel = ("Released: " + response.data.Year) + "\n";
+            var iRating = ("IMDB Rating: " + response.data.imdbRating) + "\n";
         
             var hasRT = false;
+            var rt;
             for (var i=0; i<response.data.Ratings.length; i++){
                 if(response.data.Ratings[i].Source === "Rotten Tomatoes"){
-                    console.log("Rotten Tomatoes Rating: " + response.data.Ratings[i].Value);
+                    rt = ("Rotten Tomatoes Rating: " + response.data.Ratings[i].Value) + "\n";
                     hasRT = true;
                     break;
                 }
             }
             if (!hasRT) {
-                console.log("Rotten Tomatoes Rating: None");
+                rt = ("Rotten Tomatoes Rating: None") + "\n";
             }
-            console.log("Country: " + response.data.Country);
-            console.log("Language: " + response.data.Language);
-            console.log("Plot: " + response.data.Plot);
-            console.log("Actors: " + response.data.Actors);
+
+            var country = ("Country: " + response.data.Country) + "\n";
+            var lang = "Language: " + response.data.Language + "\n";
+            var plot = ("Plot: " + response.data.Plot) + "\n";
+            var actors = ("Actors: " + response.data.Actors) + "\n";
+
+            var display = movie + rel + iRating + rt + country + lang + plot + actors;
+            console.log(display);
+
+            var log = input + "\n\n" + display + "\n\n";
+
+            fs.appendFile("log.txt", log, function(err){
+                if (err) {
+                    return console.log(err);
+                }
+                else {
+                    console.log("Updated log.txt");
+                }
+            })
             }
         );
     },
