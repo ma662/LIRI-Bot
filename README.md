@@ -1,6 +1,14 @@
 # LIRI-Bot
 LIRI ("Language Interpretation and Recognition Interface") is simple command line node app that can pull information from the Spotify, Alpha Vantage, and OMDB APIs and return information neatly for the user.
 
+Installation:
+```
+npm install
+```
+![](LIRI_demo.gif)
+
+Usage:
+
 For Spotify track information, use
 ```
 node liri spotify-this-song "<song name here>"
@@ -24,5 +32,11 @@ Otherwise, you can use
 ```
 node liri do-what-it-says
 ```
-which reads a command from the random.txt file and executes it
+which reads a command from the random.txt file and executes it.
 
+## Technologies:
+- Node.js
+- JavaScript
+- Spotify API
+- Alpha Vantage API
+- OMDB API
